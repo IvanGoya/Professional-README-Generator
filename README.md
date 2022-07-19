@@ -14,8 +14,8 @@
       
   After entering "node indes.js", anwer all of the questions that are prompted in the terminal.
       
-  ## License
-  Here is a link to my MIT license file: [Link](./license)
+  ## URL
+  Here is a [Video Link](https://watch.screencastify.com/v/LrBqwXIRTPB1wQNReOBI) of my application displaying how it works. 
   ## Questions
   Still have any questions? Feel free to reach me using:
   GitHub Profile: [IvanGoya](github.com/IvanGoya)
