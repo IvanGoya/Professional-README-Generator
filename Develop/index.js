@@ -1,19 +1,21 @@
-// TODO: Include packages needed for this application
+// packages included for this application
 const inquirer = require('inquirer')
 const fs = require('fs')
-// TODO: Create an array of questions for user input
+const generateMarkdown = require('./utils/generateMarkdown')
+
+//array of questions for user input
 const questions = [
     'Enter the title of your project:',
     'Enter a brief description of your project (can include: what problem does it solve, and what was your motivation):',
-    'Insert a link to your live application: ',
-    'Insert a folder path(from project) for a screenshot of the application:',  
+    'Insert a link to your live application (if not applicaple, leave blank): ',
+    'Insert a folder path(from project file structure) of a screenshot of the application:',  
     'Enter the name of your repository:',
     'Provide instructions for installing your repository:',
     'Provide instruction and examples for using the project:',
-    'If relevant, enter the GitHub profile links of any collaborators you worked with:',
-    'If relevant, enter any third-party assets that require attribution. List the creators with links to their primary web presence:',
-    'If relevant, list all tutorials you used to help you create this project:',
-    'Enter additional information about testing the project if you can:',
+    'If relevant, enter the GitHub profile links of any collaborators you worked with (if not applicaple, leave blank):',
+    'If relevant, enter any third-party assets that require attribution. List the creators with links to their primary web presence (if not applicaple, leave blank):',
+    'If relevant, list all tutorials you used to help you create this project (if not applicaple, leave blank):',
+    'Enter additional information about testing the project if you can (if not applicaple, leave blank):',
     'Enter the type of license you used:',
     'Enter your email address:',
     'Enter your GitHub username:',
@@ -32,82 +34,99 @@ const [
     test,
     license,
     email,
-    gitUser,
+    gitHubUserName,
 ] = questions;
 
-// TODO: Create a function to initialize app
+var markDown;
+// function init() initializes the application
 function init() {
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'titleA',
+            name: 'titleInput',
             message: title
         },
         {
             type: 'input',
-            name: 'descriptionA',
+            name: 'descriptionInput',
             message: description
         },
         {
             type: 'input',
-            name: 'linkA',
+            name: 'linkInput',
             message: link
         },
         {
             type: 'input',
-            name: 'imagePathA',
+            name: 'imagePathInput',
             message: imagePath
         },
         {
             type: 'input',
-            name: 'repoNameA',
+            name: 'repoNameInput',
             message: repoName
         },
         {
             type: 'input',
-            name: 'installationA',
+            name: 'installationInput',
             message: installation
         },
         {
             type: 'input',
-            name: 'usageA',
+            name: 'usageInput',
             message: usage
         },
         {
             type: 'input',
-            name: 'collaboratorsA',
+            name: 'collaboratorsInput',
             message: collaborators
         },
         {
             type: 'input',
-            name: 'thirdPartyAssetsA',
+            name: 'thirdPartyAssetsInput',
             message: thirdPartyAssets
         },
         {
             type: 'input',
-            name: 'tutorialsA',
+            name: 'tutorialsInput',
             message: tutorials
         },
         {
             type: 'input',
-            name: 'testA',
+            name: 'testInput',
             message: test
         },
         {
             type: 'list',
-            name: 'licenseA',
+            name: 'licenseInput',
             message: license,
-            choices: ['MIT', 'GPLv2', 'Apache', 'GPLv3', 'BSD 3-clause', 'Other']
+            choices: ['MIT', 'Apache', 'BSD 3-clause', 'GPLv2', 'GPLv3', 'Other']
         },
         {
             type: 'input',
-            name: 'emailA',
+            name: 'emailInput',
             message: email
         },
         {
             type: 'input',
-            name: 'gitUserA',
-            message: gitUser
+            name: 'gitHubUserNameInput',
+            message: gitHubUserName
         },
     ])
+    .then((data) => {
+        markDown = generateMarkdown.createmarkDown(data)
+        writeToFile('README.md', markDown);
+    })
 }
+
+// writeToFile function writes the README file
+function writeToFile(fileName, content) {
+    fs.writeFile(fileName, content, (err) => {
+        if (err)
+            console.log(err);
+        else {
+            console.log('README.md file written successfully');
+        }
+    })
+}
+init();
